@@ -1,0 +1,26 @@
+.NotificationActionsModal {
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.NotificationActionsHolder {
+    margin: auto;
+    background-color: pink;
+    margin-top: 20%;
+    width: 50%;
+    padding: 20px;
+    /* opacity: 1; */
+}
+
+.NotificationActionsHolder button {
+    display: block;
+    width: 100%;
+    margin: 5px;
+}
+
+#closeBtnHolder {
+    text-align: right;
+}

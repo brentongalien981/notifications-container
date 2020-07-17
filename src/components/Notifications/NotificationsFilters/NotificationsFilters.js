@@ -1,15 +1,20 @@
 import React from 'react';
 
-function NotificationsFilters(props) {
+export function NotificationsFilters(props) {
+
+    const selectedBtnClassName = "btn btn-primary";
+    const defaultBtnClassName = "btn btn-outline-secondary";
+
     return (
         <div>
-            <button className="btn btn-info">ALL</button>
-            <button className="btn btn-info">UNREAD</button>
-            <button className="btn btn-info">READ</button>
+            <button className={props.filter == ALL ? selectedBtnClassName : defaultBtnClassName}>ALL</button>
+            <button className={props.filter == UNREAD ? selectedBtnClassName : defaultBtnClassName}>UNREAD</button>
+            <button className={props.filter == READ ? selectedBtnClassName : defaultBtnClassName}>READ</button>
         </div>
     );
 }
 
 
-
-export default NotificationsFilters;
+export const ALL = 1;
+export const UNREAD = 2;
+export const READ = 3;

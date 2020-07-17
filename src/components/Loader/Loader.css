@@ -1,0 +1,23 @@
+.YspLoader {
+    text-align: center;
+}
+
+.YspLoaderImgContainer {
+    text-align: center;
+    background-color: white;
+}
+
+.YspLoader img {
+    display: block;
+    margin: auto;
+    width: 100px;
+
+}
+
+.YspLoaderComment {
+    margin: auto;
+    font-weight: 100;
+    font-size: 12px;
+    padding: 10px;
+    background-color: white;
+}

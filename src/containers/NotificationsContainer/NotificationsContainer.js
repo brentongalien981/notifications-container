@@ -1,6 +1,8 @@
 import React from 'react';
 import Notification from '../../components/Notifications/Notification';
-import NotificationsFilters from '../../components/Notifications/NotificationsFilters/NotificationsFilters';
+import * as filters from '../../components/Notifications/NotificationsFilters/NotificationsFilters';
+import Loader from '../../components/Loader/Loader';
+import NotificationActionsModal from '../../components/Notifications/NotificationActionsModal/NotificationActionsModal';
 
 class NotificationsContainer extends React.Component {
 
@@ -9,10 +11,10 @@ class NotificationsContainer extends React.Component {
         super(props);
 
         this.state = {
+            isModalShown: false,
+            isReadingNotifications: false,
             notifications: [
-                { id: 1, type: "Notification-Type", message: "Random notification message." },
-                { id: 2, type: "Notification-Type2", message: "Random notification message." },
-                { id: 3, type: "Notification-Type3", message: "Random notification message." }
+                // { id: 1, type: "Notification-Type", message: "Random notification message." },
             ]
         };
     }
@@ -22,11 +24,37 @@ class NotificationsContainer extends React.Component {
     render() {
 
         // Notifications
-        const notifications = this.state.notifications.map((notification) => {
+        const notifications = this.state.notifications.map((notification, i) => {
             return (
-                <Notification notification={notification} />
+                <Notification notification={notification} key={i} />
             );
         });
+
+        const notificationsContainer = <div>{notifications}</div>;
+
+
+
+        // loader
+        let loaderSection = (
+            <div>
+                <button className="btn btn-primary">show more</button>
+            </div>
+        );
+
+        if (this.state.isReadingNotifications) {
+            loaderSection = (
+                <div>
+                    <Loader />
+                </div>
+            );
+        }
+
+
+
+
+
+        // modal
+        const modal = this.state.isModalShown ? <NotificationActionsModal /> : null;
 
 
 
@@ -34,10 +62,28 @@ class NotificationsContainer extends React.Component {
         return (
             <div>
                 <h2>NotificationsContainer</h2>
-                <NotificationsFilters></NotificationsFilters>
-                {notifications}
+                <filters.NotificationsFilters filter={filters.ALL} />
+                {notificationsContainer}
+                {loaderSection}
+                {modal}
             </div>
         );
+    }
+
+
+
+    componentDidMount() {
+        this.readNotifications();
+    }
+
+
+
+    readNotifications() {
+        if (this.state.isReadingNotifications) { return; }
+
+        this.setState({ isReadingNotifications: true });
+
+        // TODO
     }
 }
 
