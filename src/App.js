@@ -104,7 +104,7 @@ class App extends React.Component {
 
 		let notifications = null;
 
-		if (this.state.isLoggedIn) { notifications = <NotificationsContainer />; }
+		if (this.state.isLoggedIn) { notifications = <NotificationsContainer token={this.state.token} />; }
 
 
 		return (

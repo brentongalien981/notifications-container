@@ -3,6 +3,7 @@ import Notification from '../../components/Notifications/Notification';
 import * as filters from '../../components/Notifications/NotificationsFilters/NotificationsFilters';
 import Loader from '../../components/Loader/Loader';
 import NotificationActionsModal from '../../components/Notifications/NotificationActionsModal/NotificationActionsModal';
+import Core from '../../ysp-core/Core';
 
 class NotificationsContainer extends React.Component {
 
@@ -84,6 +85,20 @@ class NotificationsContainer extends React.Component {
         this.setState({ isReadingNotifications: true });
 
         // TODO
+        Core.yspCrud({
+            url: '/notifications/test',
+            params: {
+                api_token: this.props.token,
+            },
+            neededResponseParams: ["isResultOk", "notifications"],
+            callBackFunc: (requestData, json) => {
+                this.setState({
+                    notifications: json.notifications
+                });
+            }
+        });
+
+        
     }
 }
 
