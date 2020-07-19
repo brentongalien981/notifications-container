@@ -14,10 +14,14 @@ class NotificationsContainer extends React.Component {
         this.state = {
             isModalShown: false,
             isReadingNotifications: false,
+            filter: filters.ALL,
             notifications: [
                 // { id: 1, type: "Notification-Type", message: "Random notification message." },
             ]
         };
+
+        // Bind
+        this.handleOnUnreadNotificationsFilterClick = this.handleOnUnreadNotificationsFilterClick.bind(this);
     }
 
 
@@ -63,7 +67,9 @@ class NotificationsContainer extends React.Component {
         return (
             <div>
                 <h2>NotificationsContainer</h2>
-                <filters.NotificationsFilters filter={filters.ALL} />
+                <filters.NotificationsFilters
+                    filter={this.state.filter}
+                    onUnreadNotificationsFilterClick={this.handleOnUnreadNotificationsFilterClick} />
                 {notificationsContainer}
                 {loaderSection}
                 {modal}
@@ -86,19 +92,56 @@ class NotificationsContainer extends React.Component {
 
         // TODO
         Core.yspCrud({
-            url: '/notifications/test',
+            url: '/notifications',
             params: {
                 api_token: this.props.token,
             },
             neededResponseParams: ["isResultOk", "notifications"],
             callBackFunc: (requestData, json) => {
                 this.setState({
-                    notifications: json.notifications
+                    notifications: json.notifications,
+                    isReadingNotifications: false
+                });
+            }
+        });
+    }
+
+
+
+    readUnreadNotifications() {
+        if (this.state.isReadingNotifications) { return; }
+
+        this.setState({ isReadingNotifications: true });
+
+        //
+        Core.yspCrud({
+            url: '/notifications/unread',
+            params: {
+                api_token: this.props.token,
+            },
+            neededResponseParams: ["notifications"],
+            callBackFunc: (requestData, json) => {
+                this.setState({
+                    notifications: json.notifications,
+                    isReadingNotifications: false
                 });
             }
         });
 
-        
+
+    }
+
+
+
+    handleOnUnreadNotificationsFilterClick() {
+        console.log("in method:: handleOnUnreadNotificationsFilterClick()");
+
+        // Update the selected filter button.
+        this.setState({ filter: filters.UNREAD });
+
+
+        // Filter the shown notifications
+        this.readUnreadNotifications();
     }
 }
 
