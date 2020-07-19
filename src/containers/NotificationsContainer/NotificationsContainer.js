@@ -23,6 +23,8 @@ class NotificationsContainer extends React.Component {
         // Bind
         this.handleOnUnreadNotificationsFilterClick = this.handleOnUnreadNotificationsFilterClick.bind(this);
         this.handleOnReadNotificationsFilterClick = this.handleOnReadNotificationsFilterClick.bind(this);
+        this.handleOnAllNotificationsFilterClick = this.handleOnAllNotificationsFilterClick.bind(this);
+        
 
     }
 
@@ -72,7 +74,8 @@ class NotificationsContainer extends React.Component {
                 <filters.NotificationsFilters
                     filter={this.state.filter}
                     onUnreadNotificationsFilterClick={this.handleOnUnreadNotificationsFilterClick}
-                    onReadNotificationsFilterClick={this.handleOnReadNotificationsFilterClick} />
+                    onReadNotificationsFilterClick={this.handleOnReadNotificationsFilterClick}
+                    onAllNotificationsFilterClick={this.handleOnAllNotificationsFilterClick} />
                 {notificationsContainer}
                 {loaderSection}
                 {modal}
@@ -96,7 +99,7 @@ class NotificationsContainer extends React.Component {
         this.setState({ isReadingNotifications: true });
 
 
-        // TODO
+        // 
         Core.yspCrud({
             url: "/notifications",
             params: {
@@ -126,12 +129,18 @@ class NotificationsContainer extends React.Component {
 
 
     handleOnReadNotificationsFilterClick() {
-        console.log("in method:: handleOnReadNotificationsFilterClick()");
 
         // Update the selected filter button.
         this.setState({ filter: filters.READ });
 
         this.readNotifications(filters.READ);
+    }
+
+
+
+    handleOnAllNotificationsFilterClick() {
+        this.setState({ filter: filters.ALL });
+        this.readNotifications();
     }
 }
 
