@@ -22,6 +22,8 @@ class NotificationsContainer extends React.Component {
 
         // Bind
         this.handleOnUnreadNotificationsFilterClick = this.handleOnUnreadNotificationsFilterClick.bind(this);
+        this.handleOnReadNotificationsFilterClick = this.handleOnReadNotificationsFilterClick.bind(this);
+
     }
 
 
@@ -69,7 +71,8 @@ class NotificationsContainer extends React.Component {
                 <h2>NotificationsContainer</h2>
                 <filters.NotificationsFilters
                     filter={this.state.filter}
-                    onUnreadNotificationsFilterClick={this.handleOnUnreadNotificationsFilterClick} />
+                    onUnreadNotificationsFilterClick={this.handleOnUnreadNotificationsFilterClick}
+                    onReadNotificationsFilterClick={this.handleOnReadNotificationsFilterClick} />
                 {notificationsContainer}
                 {loaderSection}
                 {modal}
@@ -85,39 +88,20 @@ class NotificationsContainer extends React.Component {
 
 
 
-    readNotifications() {
+    readNotifications(filter = filters.ALL) {
+
+        //
         if (this.state.isReadingNotifications) { return; }
 
         this.setState({ isReadingNotifications: true });
+
 
         // TODO
         Core.yspCrud({
-            url: '/notifications',
+            url: "/notifications",
             params: {
                 api_token: this.props.token,
-            },
-            neededResponseParams: ["isResultOk", "notifications"],
-            callBackFunc: (requestData, json) => {
-                this.setState({
-                    notifications: json.notifications,
-                    isReadingNotifications: false
-                });
-            }
-        });
-    }
-
-
-
-    readUnreadNotifications() {
-        if (this.state.isReadingNotifications) { return; }
-
-        this.setState({ isReadingNotifications: true });
-
-        //
-        Core.yspCrud({
-            url: '/notifications/unread',
-            params: {
-                api_token: this.props.token,
+                filter: filter
             },
             neededResponseParams: ["notifications"],
             callBackFunc: (requestData, json) => {
@@ -127,21 +111,27 @@ class NotificationsContainer extends React.Component {
                 });
             }
         });
-
-
     }
 
 
 
     handleOnUnreadNotificationsFilterClick() {
-        console.log("in method:: handleOnUnreadNotificationsFilterClick()");
 
         // Update the selected filter button.
         this.setState({ filter: filters.UNREAD });
 
+        this.readNotifications(filters.UNREAD);
+    }
 
-        // Filter the shown notifications
-        this.readUnreadNotifications();
+
+
+    handleOnReadNotificationsFilterClick() {
+        console.log("in method:: handleOnReadNotificationsFilterClick()");
+
+        // Update the selected filter button.
+        this.setState({ filter: filters.READ });
+
+        this.readNotifications(filters.READ);
     }
 }
 
