@@ -5,7 +5,7 @@ function NotificationActionsModal(props) {
     return (
         <div className="NotificationActionsModal">
             <div id="closeBtnHolder">
-                <button className="btn btn-outline-light">X</button>
+                <button className="btn btn-outline-light" onClick={props.onModalClose}>X</button>
             </div>
 
             <div className="NotificationActionsHolder">

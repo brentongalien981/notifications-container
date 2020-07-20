@@ -27,6 +27,7 @@ class NotificationsContainer extends React.Component {
         this.handleOnReadNotificationsFilterClick = this.handleOnReadNotificationsFilterClick.bind(this);
         this.handleOnAllNotificationsFilterClick = this.handleOnAllNotificationsFilterClick.bind(this);
         this.handleOnNotificationOptionsClick = this.handleOnNotificationOptionsClick.bind(this);
+        this.handleOnModalClose = this.handleOnModalClose.bind(this);
     }
 
 
@@ -68,7 +69,7 @@ class NotificationsContainer extends React.Component {
 
 
         // modal
-        const modal = this.state.isModalShown ? <NotificationActionsModal /> : null;
+        const modal = this.state.isModalShown ? <NotificationActionsModal onModalClose={this.handleOnModalClose} /> : null;
 
 
 
@@ -157,6 +158,14 @@ class NotificationsContainer extends React.Component {
             isModalShown: true,
             selectedNotificationIndex: index,
             selectedNotificationId: id
+        });
+    }
+
+
+
+    handleOnModalClose() {
+        this.setState({ 
+            isModalShown: false
         });
     }
 }
