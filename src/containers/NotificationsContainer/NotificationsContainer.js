@@ -28,6 +28,7 @@ class NotificationsContainer extends React.Component {
         this.handleOnAllNotificationsFilterClick = this.handleOnAllNotificationsFilterClick.bind(this);
         this.handleOnNotificationOptionsClick = this.handleOnNotificationOptionsClick.bind(this);
         this.handleOnModalClose = this.handleOnModalClose.bind(this);
+        this.handleOnDeleteNotification = this.handleOnDeleteNotification.bind(this);
     }
 
 
@@ -69,7 +70,11 @@ class NotificationsContainer extends React.Component {
 
 
         // modal
-        const modal = this.state.isModalShown ? <NotificationActionsModal onModalClose={this.handleOnModalClose} /> : null;
+        const modal = this.state.isModalShown
+            ? <NotificationActionsModal
+                onModalClose={this.handleOnModalClose}
+                onDeleteNotification={this.handleOnDeleteNotification} />
+            : null;
 
 
 
@@ -154,18 +159,39 @@ class NotificationsContainer extends React.Component {
     handleOnNotificationOptionsClick(index, id) {
 
         // Show the modal.
-        this.setState({ 
+        this.setState({
             isModalShown: true,
             selectedNotificationIndex: index,
             selectedNotificationId: id
         });
+
+        // TODO: Delete this later.
+        console.log("selectedNotificationIndex ==> " + index);
+        console.log("selectedNotificationId ==> " + id);
     }
 
 
 
     handleOnModalClose() {
-        this.setState({ 
+        this.setState({
             isModalShown: false
+        });
+    }
+
+
+
+    handleOnDeleteNotification() {
+        Core.yspCrud({
+            url: "/notifications-users",
+            method: "delete",
+            params: {
+                api_token: this.props.token,
+                selectedNotificationId: this.state.selectedNotificationId
+            },
+            neededResponseParams: ["message", "selectedNotificationId"],
+            callBackFunc: (requestData, json) => {
+                
+            }
         });
     }
 }

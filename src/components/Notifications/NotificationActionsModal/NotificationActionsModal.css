@@ -13,6 +13,7 @@
     width: 50%;
     padding: 20px;
     /* opacity: 1; */
+    /* pointer-events: unset; */
 }
 
 .NotificationActionsHolder button {
