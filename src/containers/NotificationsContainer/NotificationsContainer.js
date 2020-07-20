@@ -15,6 +15,8 @@ class NotificationsContainer extends React.Component {
             isModalShown: false,
             isReadingNotifications: false,
             filter: filters.ALL,
+            selectedNotificationIndex: null,
+            selectedNotificationId: null,
             notifications: [
                 // { id: 1, type: "Notification-Type", message: "Random notification message." },
             ]
@@ -24,8 +26,7 @@ class NotificationsContainer extends React.Component {
         this.handleOnUnreadNotificationsFilterClick = this.handleOnUnreadNotificationsFilterClick.bind(this);
         this.handleOnReadNotificationsFilterClick = this.handleOnReadNotificationsFilterClick.bind(this);
         this.handleOnAllNotificationsFilterClick = this.handleOnAllNotificationsFilterClick.bind(this);
-        
-
+        this.handleOnNotificationOptionsClick = this.handleOnNotificationOptionsClick.bind(this);
     }
 
 
@@ -35,7 +36,11 @@ class NotificationsContainer extends React.Component {
         // Notifications
         const notifications = this.state.notifications.map((notification, i) => {
             return (
-                <Notification notification={notification} key={i} />
+                <Notification
+                    notification={notification}
+                    key={i}
+                    index={i}
+                    onNotificationOptionsClick={this.handleOnNotificationOptionsClick} />
             );
         });
 
@@ -141,6 +146,18 @@ class NotificationsContainer extends React.Component {
     handleOnAllNotificationsFilterClick() {
         this.setState({ filter: filters.ALL });
         this.readNotifications();
+    }
+
+
+
+    handleOnNotificationOptionsClick(index, id) {
+
+        // Show the modal.
+        this.setState({ 
+            isModalShown: true,
+            selectedNotificationIndex: index,
+            selectedNotificationId: id
+        });
     }
 }
 

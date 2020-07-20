@@ -18,11 +18,11 @@
     font-size: 0.6rem;
 }
 
-.dismissBtn {
+.notificationOptionsBtn {
     font-size: 1rem;
 }
 
-.dismissBtn:hover {
+.notificationOptionsBtn:hover {
     cursor: pointer;
     background-color: red;
 }
