@@ -14,6 +14,7 @@ class NotificationsContainer extends React.Component {
         this.state = {
             isModalShown: false,
             isReadingNotifications: false,
+            isDeletingNotification: false,
             filter: filters.ALL,
             selectedNotificationIndex: null,
             selectedNotificationId: null,
@@ -181,6 +182,14 @@ class NotificationsContainer extends React.Component {
 
 
     handleOnDeleteNotification() {
+
+        //
+        if (this.state.isDeletingNotification) { return; }
+
+        this.setState({ isDeletingNotification: true });
+
+
+        //
         Core.yspCrud({
             url: "/notifications-users",
             method: "delete",
@@ -190,7 +199,14 @@ class NotificationsContainer extends React.Component {
             },
             neededResponseParams: ["message", "selectedNotificationId"],
             callBackFunc: (requestData, json) => {
-                
+                let updatedNotifications = this.state.notifications;
+                updatedNotifications.splice(this.state.selectedNotificationIndex, 1);
+
+                this.setState({ 
+                    notifications: updatedNotifications,
+                    isModalShown: false,
+                    isDeletingNotification: false
+                });
             }
         });
     }
