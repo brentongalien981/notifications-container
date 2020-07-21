@@ -119,10 +119,20 @@ function getCommentableNode(data) {
 
 
 function Notification(props) {
+
+    let notificationSubjectClassName = "notificationType";
+    let notificationMessageClassName = "notificationMessage";
+
+    if (props.notification.pivot_read_at == null) {
+        notificationSubjectClassName += " unreadNotificationSubject";
+        notificationMessageClassName += " unreadNotificationMessage";
+    }
+     
+
     return (
         <div className="notification">
             <div className="d-flex justify-content-between">
-                <h5 className="notificationType">{getNotificationsSubject(props.notification.type)}</h5>
+                <h5 className={notificationSubjectClassName}>{getNotificationsSubject(props.notification.type)}</h5>
                 <h6 className="notificationDate">{props.notification.readable_created_at}&nbsp;
                 <span className="notificationOptionsBtn badge badge-warning" onClick={(e) => { props.onNotificationOptionsClick(props.index, props.notification.id) }}>
                     <i className="fa fa-ellipsis-v"></i>
@@ -131,7 +141,7 @@ function Notification(props) {
             </div>
 
             <div>
-                <p className="notificationMessage">{getNotificationsMessage(props.notification, props)}</p>
+                <p className={notificationMessageClassName}>{getNotificationsMessage(props.notification, props)}</p>
             </div>
         </div>
     );

@@ -14,6 +14,10 @@
     font-size: 0.7rem;
 }
 
+.unreadNotificationSubject {
+    font-weight: 800;
+}
+
 .notificationDate {
     font-size: 0.6rem;
 }
@@ -42,6 +46,11 @@
 
 .notificationMessage {
     font-size: 0.8rem;
+    font-weight: 300;
+}
+
+.unreadNotificationMessage {
+    font-weight: 500;
 }
 
 

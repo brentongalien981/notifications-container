@@ -15,6 +15,7 @@ class NotificationsContainer extends React.Component {
             isModalShown: false,
             isReadingNotifications: false,
             isDeletingNotification: false,
+            isUpdatingNotification: false,
             filter: filters.ALL,
             selectedNotificationIndex: null,
             selectedNotificationId: null,
@@ -30,6 +31,7 @@ class NotificationsContainer extends React.Component {
         this.handleOnNotificationOptionsClick = this.handleOnNotificationOptionsClick.bind(this);
         this.handleOnModalClose = this.handleOnModalClose.bind(this);
         this.handleOnDeleteNotification = this.handleOnDeleteNotification.bind(this);
+        this.handleOnMarkNotificationAsRead = this.handleOnMarkNotificationAsRead.bind(this);
     }
 
 
@@ -73,8 +75,10 @@ class NotificationsContainer extends React.Component {
         // modal
         const modal = this.state.isModalShown
             ? <NotificationActionsModal
+                filter={this.state.filter}
                 onModalClose={this.handleOnModalClose}
-                onDeleteNotification={this.handleOnDeleteNotification} />
+                onDeleteNotification={this.handleOnDeleteNotification}
+                onMarkNotificationAsRead={this.handleOnMarkNotificationAsRead} />
             : null;
 
 
@@ -202,11 +206,62 @@ class NotificationsContainer extends React.Component {
                 let updatedNotifications = this.state.notifications;
                 updatedNotifications.splice(this.state.selectedNotificationIndex, 1);
 
-                this.setState({ 
+                this.setState({
                     notifications: updatedNotifications,
                     isModalShown: false,
                     isDeletingNotification: false
                 });
+            }
+        });
+    }
+
+
+
+    handleOnMarkNotificationAsRead() {
+
+        //
+        if (this.state.isUpdatingNotification) { return; }
+
+        this.setState({ isUpdatingNotification: true });
+
+
+        //
+        Core.yspCrud({
+            url: "/notifications-users",
+            method: "patch",
+            params: {
+                api_token: this.props.token,
+                selectedNotificationId: this.state.selectedNotificationId
+            },
+            neededResponseParams: ["message", "selectedNotificationId", "updatedNotification"],
+            callBackFunc: (requestData, json) => {
+
+                // 
+                let updatedNotifications = this.state.notifications;
+
+                switch (this.state.filter) {
+                    case filters.ALL:
+
+                        updatedNotifications[this.state.selectedNotificationIndex] = json.updatedNotification;
+
+                        this.setState({
+                            notifications: updatedNotifications,
+                            isModalShown: false,
+                            isUpdatingNotification: false
+                        });
+                        break;
+
+                    case filters.UNREAD:
+                        
+                        updatedNotifications.splice(this.state.selectedNotificationIndex, 1);
+
+                        this.setState({
+                            notifications: updatedNotifications,
+                            isModalShown: false,
+                            isUpdatingNotification: false
+                        });
+                        break;
+                }
             }
         });
     }
