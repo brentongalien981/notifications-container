@@ -32,6 +32,7 @@ class NotificationsContainer extends React.Component {
         this.handleOnModalClose = this.handleOnModalClose.bind(this);
         this.handleOnDeleteNotification = this.handleOnDeleteNotification.bind(this);
         this.handleOnMarkNotificationAsRead = this.handleOnMarkNotificationAsRead.bind(this);
+        this.handleOnMarkNotificationAsUnread = this.handleOnMarkNotificationAsUnread.bind(this);
     }
 
 
@@ -78,7 +79,8 @@ class NotificationsContainer extends React.Component {
                 filter={this.state.filter}
                 onModalClose={this.handleOnModalClose}
                 onDeleteNotification={this.handleOnDeleteNotification}
-                onMarkNotificationAsRead={this.handleOnMarkNotificationAsRead} />
+                onMarkNotificationAsRead={this.handleOnMarkNotificationAsRead}
+                onMarkNotificationAsUnread={this.handleOnMarkNotificationAsUnread} />
             : null;
 
 
@@ -218,7 +220,18 @@ class NotificationsContainer extends React.Component {
 
 
     handleOnMarkNotificationAsRead() {
+        this.markNotification(filters.READ);
+    }
 
+
+
+    handleOnMarkNotificationAsUnread() {
+        this.markNotification(filters.UNREAD);
+    }
+
+
+
+    markNotification(mark) {
         //
         if (this.state.isUpdatingNotification) { return; }
 
@@ -231,7 +244,8 @@ class NotificationsContainer extends React.Component {
             method: "patch",
             params: {
                 api_token: this.props.token,
-                selectedNotificationId: this.state.selectedNotificationId
+                selectedNotificationId: this.state.selectedNotificationId,
+                mark: mark
             },
             neededResponseParams: ["message", "selectedNotificationId", "updatedNotification"],
             callBackFunc: (requestData, json) => {
@@ -252,7 +266,18 @@ class NotificationsContainer extends React.Component {
                         break;
 
                     case filters.UNREAD:
-                        
+
+                        updatedNotifications.splice(this.state.selectedNotificationIndex, 1);
+
+                        this.setState({
+                            notifications: updatedNotifications,
+                            isModalShown: false,
+                            isUpdatingNotification: false
+                        });
+                        break;
+
+                    case filters.READ:
+
                         updatedNotifications.splice(this.state.selectedNotificationIndex, 1);
 
                         this.setState({
