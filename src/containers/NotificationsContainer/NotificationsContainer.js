@@ -33,6 +33,7 @@ class NotificationsContainer extends React.Component {
         this.handleOnDeleteNotification = this.handleOnDeleteNotification.bind(this);
         this.handleOnMarkNotificationAsRead = this.handleOnMarkNotificationAsRead.bind(this);
         this.handleOnMarkNotificationAsUnread = this.handleOnMarkNotificationAsUnread.bind(this);
+        this.handleShowMoreNotifications = this.handleShowMoreNotifications.bind(this);
     }
 
 
@@ -57,14 +58,14 @@ class NotificationsContainer extends React.Component {
         // loader
         let loaderSection = (
             <div>
-                <button className="btn btn-primary">show more</button>
+                <button className="btn btn-primary" onClick={this.handleShowMoreNotifications}>show more</button>
             </div>
         );
 
         if (this.state.isReadingNotifications) {
             loaderSection = (
                 <div>
-                    <Loader />
+                    <Loader comment="loading items..." />
                 </div>
             );
         }
@@ -116,19 +117,33 @@ class NotificationsContainer extends React.Component {
 
         this.setState({ isReadingNotifications: true });
 
+        //
+        let numOfShownNotificatios = this.state.notifications.length;
+        if (filter !== this.state.filter) { numOfShownNotificatios = 0; }
+
 
         // 
         Core.yspCrud({
             url: "/notifications",
             params: {
                 api_token: this.props.token,
-                filter: filter
+                filter: filter,
+                numOfShownNotificatios: numOfShownNotificatios
             },
             neededResponseParams: ["notifications"],
             callBackFunc: (requestData, json) => {
+
+                let updatedNotifications = this.state.notifications;
+                updatedNotifications = updatedNotifications.concat(json.notifications);
+
+                if (filter !== this.state.filter) {
+                    updatedNotifications = json.notifications;
+                }
+
                 this.setState({
-                    notifications: json.notifications,
-                    isReadingNotifications: false
+                    notifications: updatedNotifications,
+                    isReadingNotifications: false,
+                    filter: filter
                 });
             }
         });
@@ -139,7 +154,7 @@ class NotificationsContainer extends React.Component {
     handleOnUnreadNotificationsFilterClick() {
 
         // Update the selected filter button.
-        this.setState({ filter: filters.UNREAD });
+        // this.setState({ filter: filters.UNREAD });
 
         this.readNotifications(filters.UNREAD);
     }
@@ -149,7 +164,7 @@ class NotificationsContainer extends React.Component {
     handleOnReadNotificationsFilterClick() {
 
         // Update the selected filter button.
-        this.setState({ filter: filters.READ });
+        // this.setState({ filter: filters.READ });
 
         this.readNotifications(filters.READ);
     }
@@ -157,7 +172,7 @@ class NotificationsContainer extends React.Component {
 
 
     handleOnAllNotificationsFilterClick() {
-        this.setState({ filter: filters.ALL });
+        // this.setState({ filter: filters.ALL });
         this.readNotifications();
     }
 
@@ -289,6 +304,15 @@ class NotificationsContainer extends React.Component {
                 }
             }
         });
+    }
+
+
+
+    handleShowMoreNotifications() {
+        if (this.state.isReadingNotifications) { return; }
+        this.setState({ isReadingNotifications: true });
+
+        this.readNotifications(this.state.filter);
     }
 }
 
