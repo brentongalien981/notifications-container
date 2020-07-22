@@ -3,32 +3,35 @@
     box-shadow: 0 0 10px rgb(240, 240, 240);
     border: 1px solid rgb(240, 240, 240);
     border-radius: 5px;
-    padding: 15px 15px;
-    margin: 5px;
-    margin-bottom: 15px;
+    padding: 25px 20px;
+    /* margin: 5px; */
+    margin-bottom: 25px;
     pointer-events: all;
     overflow-wrap: break-word;
 }
 
 .notificationType {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
+    font-weight: 400;
 }
 
 .unreadNotificationSubject {
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .notificationDate {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
+    font-style: italic;
 }
 
 .notificationOptionsBtn {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    padding: 0.2rem 0.5rem;
 }
 
 .notificationOptionsBtn:hover {
     cursor: pointer;
-    background-color: red;
+    background-color: rgb(235, 234, 234);
 }
 
 .notificationActionLink {
@@ -45,7 +48,7 @@
 }
 
 .notificationMessage {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 300;
 }
 

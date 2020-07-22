@@ -1,4 +1,5 @@
 import React from 'react';
+import './NotificationsFilters.css';
 
 export function NotificationsFilters(props) {
 
@@ -6,10 +7,10 @@ export function NotificationsFilters(props) {
     const defaultBtnClassName = "btn btn-outline-secondary";
 
     return (
-        <div>
-            <button className={props.filter == ALL ? selectedBtnClassName : defaultBtnClassName} onClick={props.onAllNotificationsFilterClick}>ALL</button>
-            <button className={props.filter == UNREAD ? selectedBtnClassName : defaultBtnClassName} onClick={props.onUnreadNotificationsFilterClick}>UNREAD</button>
-            <button className={props.filter == READ ? selectedBtnClassName : defaultBtnClassName} onClick={props.onReadNotificationsFilterClick}>READ</button>
+        <div className="NotificationsFilters">
+            <button id="allNotificationsFilterBtn" className={props.filter == ALL ? selectedBtnClassName : defaultBtnClassName} onClick={props.onAllNotificationsFilterClick}>All</button>
+            <button id="unreadNotificationsFilterBtn" className={props.filter == UNREAD ? selectedBtnClassName : defaultBtnClassName} onClick={props.onUnreadNotificationsFilterClick}>Unread</button>
+            <button id="readNotificationsFilterBtn" className={props.filter == READ ? selectedBtnClassName : defaultBtnClassName} onClick={props.onReadNotificationsFilterClick}>Read</button>
         </div>
     );
 }

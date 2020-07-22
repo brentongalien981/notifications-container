@@ -1,0 +1,21 @@
+.NotificationsFilters {
+    margin-bottom: 20px;
+}
+
+.NotificationsFilters button {
+    padding: 0.2rem 1rem;
+}
+
+#allNotificationsFilterBtn {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#unreadNotificationsFilterBtn {
+    border-radius: 0;
+}
+
+#readNotificationsFilterBtn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}

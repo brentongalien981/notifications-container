@@ -4,6 +4,7 @@ import * as filters from '../../components/Notifications/NotificationsFilters/No
 import Loader from '../../components/Loader/Loader';
 import NotificationActionsModal from '../../components/Notifications/NotificationActionsModal/NotificationActionsModal';
 import Core from '../../ysp-core/Core';
+import './NotificationsContainer.css';
 
 class NotificationsContainer extends React.Component {
 
@@ -88,8 +89,8 @@ class NotificationsContainer extends React.Component {
 
         //
         return (
-            <div>
-                <h2>NotificationsContainer</h2>
+            <div id="notificationsContainer">
+                <h2 id="notificationsHeader">Notifications</h2>
                 <filters.NotificationsFilters
                     filter={this.state.filter}
                     onUnreadNotificationsFilterClick={this.handleOnUnreadNotificationsFilterClick}

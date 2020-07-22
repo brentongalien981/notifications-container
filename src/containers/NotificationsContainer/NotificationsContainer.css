@@ -1,0 +1,20 @@
+#notificationsContainer {
+    margin: auto;
+    border-radius: 10px;
+    border: 1px solid lightgrey;
+    min-width: 640px;
+    width: 70%;
+    padding: 20px 40px;
+    text-align: left;
+}
+
+#notificationsHeader {
+    margin-bottom: 20px;
+}
+
+/* On screens that are 992px or less, set the background color to blue */
+@media screen and (max-width: 992px) {
+    #notificationsContainer {
+        width: 90%;
+    }
+}

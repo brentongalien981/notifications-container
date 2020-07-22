@@ -134,7 +134,7 @@ function Notification(props) {
             <div className="d-flex justify-content-between">
                 <h5 className={notificationSubjectClassName}>{getNotificationsSubject(props.notification.type)}</h5>
                 <h6 className="notificationDate">{props.notification.readable_created_at}&nbsp;
-                <span className="notificationOptionsBtn badge badge-warning" onClick={(e) => { props.onNotificationOptionsClick(props.index, props.notification.id) }}>
+                <span className="notificationOptionsBtn badge badge-light" onClick={(e) => { props.onNotificationOptionsClick(props.index, props.notification.id) }}>
                     <i className="fa fa-ellipsis-v"></i>
                 </span>
                 </h6>
